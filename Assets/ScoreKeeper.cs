@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreKeeper : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class ScoreKeeper : MonoBehaviour
     public int Score;
     //Score needed in order to win
     public int VictoryScore;
+    public Text ScoreVisual;
+    public Text VictoryDisplay;
 
     void Start()
     {
@@ -18,10 +21,13 @@ public class ScoreKeeper : MonoBehaviour
 
     void Update()
     {
+        //Will update the text information of UI score element to display the
+        //player's current score.
+        ScoreVisual.text = "Score: " + Score;
         //If Score is greater than or equal to VictoryScore the player wins.
         if (Score >= VictoryScore)
         {
-            Debug.Log("You Win");
+            VictoryDisplay.gameObject.SetActive(true);
         }
     }
 }
