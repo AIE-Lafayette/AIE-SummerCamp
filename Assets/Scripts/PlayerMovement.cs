@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public Rigidbody rigidbody;
+    public Rigidbody rigidbodyRef;
 
     public float speed;
 	// Use this for initialization
@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
         //Assigns a value to the rigidbody variable by grabbing a rigidbody
         //component that is attached to the same GameObject this script is
         //attached to.
-	    rigidbody = GetComponent<Rigidbody>();
+        rigidbodyRef = GetComponent<Rigidbody>();
 	}
 	
 	// Update is called once per frame
@@ -27,6 +27,6 @@ public class PlayerMovement : MonoBehaviour
 
         //Applies a force to the rigidbody attached to the player in a direction
         //determined by the values the Input manager is returning.
-        rigidbody.AddForce(new Vector3(horizontal,0,vertical) * speed);
+        rigidbodyRef.AddForce(new Vector3(horizontal,0,vertical) * speed);
 	}
 }
