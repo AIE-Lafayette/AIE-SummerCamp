@@ -21,7 +21,8 @@ public class EnemyBehaviour : MonoBehaviour
             RaycastHit rayhit;
             if (Physics.Raycast(transform.position, PlayerRef.transform.position - transform.position, out rayhit, Mathf.Infinity))
             {
-                return true;
+                if (rayhit.transform == PlayerRef.transform)
+                    return true;
             }
             return false;
         }
@@ -53,5 +54,13 @@ public class EnemyBehaviour : MonoBehaviour
                 AgentRef.SetDestination(PlayerRef.transform.position);
             }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (PlayerRef == null)
+            return;
+        var dir = PlayerRef.transform.position - transform.position;
+        Gizmos.DrawRay(transform.position, dir.normalized * TrackingDistance);
     }
 }

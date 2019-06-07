@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public Rigidbody rigidbodyRef;
+    public Rigidbody rigidbodyRef;    
 
-    public float speed;    
+    public float MaxSpeed;
 	// Use this for initialization
 	void Start ()
 	{
@@ -27,12 +27,20 @@ public class PlayerMovement : MonoBehaviour
 
         //Applies a force to the rigidbody attached to the player in a direction
         //determined by the values the Input manager is returning.
-        rigidbodyRef.AddForce(new Vector3(horizontal,0,vertical) * speed);
+        rigidbodyRef.AddForce(new Vector3(horizontal,0,vertical) * MaxSpeed);
+        Debug.Log(rigidbodyRef.velocity.magnitude);
         
+        if (rigidbodyRef.velocity.magnitude > MaxSpeed)
+        {
+            var y = rigidbodyRef.velocity.y;
+            rigidbodyRef.velocity = new Vector3(rigidbodyRef.velocity.normalized.x, 0, rigidbodyRef.velocity.normalized.z) * MaxSpeed;
+            rigidbodyRef.velocity = new Vector3(rigidbodyRef.velocity.x, y, rigidbodyRef.velocity.z);
+        }
+
         //Makes the object rotate in the direction we are traveling and if we are no longer moving set the object to look forward again
         if (horizontal != 0 || vertical != 0)
-            transform.forward = rigidbodyRef.velocity;
+            transform.forward = new Vector3(rigidbodyRef.velocity.x, 0, rigidbodyRef.velocity.z);
         else
-            transform.forward = Vector3.Lerp(transform.forward, Vector3.forward, Vector3.Distance(transform.forward, Vector3.forward) * (Time.deltaTime * speed));
+            transform.forward = Vector3.Lerp(transform.forward, Vector3.forward, Vector3.Distance(transform.forward, Vector3.forward) * (Time.deltaTime * MaxSpeed));
 	}
 }
